@@ -128,6 +128,47 @@ model-viewer {
     color: #2c3e50;
 }
 
+.ar-requirements {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    border-radius: 15px;
+    padding: 25px;
+    border-left: 5px solid #ffc107;
+    margin-top: 20px;
+}
+
+.ar-requirements h3 {
+    color: #856404;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.ar-requirements ul {
+    list-style: none;
+    padding: 0;
+}
+
+.ar-requirements li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ffeaa7;
+    font-size: 1rem;
+    color: #856404;
+}
+
+.ar-requirements li:last-child {
+    border-bottom: none;
+}
+
+.ar-requirements strong {
+    color: #856404;
+}
+
+.ar-status {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
 footer {
     text-align: center;
     color: white;

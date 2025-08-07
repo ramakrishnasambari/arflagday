@@ -32,10 +32,15 @@
                 reveal="auto"
                 ar-scale="auto"
                 ar-placement="floor"
-                ar-button>
-                <button slot="ar-button" class="ar-button">
+                ar-button
+                ar-status="not-presenting">
+                <button slot="ar-button" class="ar-button" id="arButton">
                     👁️ View in AR
                 </button>
+                <div slot="ar-status" class="ar-status">
+                    <p>AR not available on this device</p>
+                    <p>Try viewing on a mobile device with AR support</p>
+                </div>
             </model-viewer>
         </div>
 
@@ -47,8 +52,17 @@
                 <h3>How to Use:</h3>
                 <ul>
                     <li>🖱️ <strong>Mouse/Touch:</strong> Rotate and zoom the model</li>
-                    <li>👁️ <strong>AR Button:</strong> View in your space</li>
+                    <li>👁️ <strong>AR Button:</strong> View in your space (mobile only)</li>
                     <li>📱 <strong>Mobile:</strong> Best experience on AR-capable devices</li>
+                </ul>
+            </div>
+
+            <div class="ar-requirements">
+                <h3>AR Requirements:</h3>
+                <ul>
+                    <li>📱 <strong>Android:</strong> ARCore supported device + Google Play Services for AR</li>
+                    <li>🍎 <strong>iOS:</strong> iPhone 6s+ or iPad 5th gen+ with iOS 12+</li>
+                    <li>🌐 <strong>Browser:</strong> Chrome, Safari, or Firefox with WebXR support</li>
                 </ul>
             </div>
         </div>
@@ -57,5 +71,47 @@
             <p>Experience the power of peaceful resistance through AR technology</p>
         </footer>
     </div>
+
+    <script>
+        // AR device detection and status handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const modelViewer = document.querySelector('model-viewer');
+            const arButton = document.getElementById('arButton');
+            
+            // Check if AR is supported
+            function checkARSupport() {
+                if (!modelViewer) return;
+                
+                // Listen for AR status changes
+                modelViewer.addEventListener('ar-status', function(event) {
+                    const status = event.detail.status;
+                    console.log('AR Status:', status);
+                    
+                    if (status === 'not-presenting') {
+                        // AR is available but not active
+                        arButton.style.display = 'block';
+                    } else if (status === 'failed') {
+                        // AR failed to start
+                        arButton.textContent = '❌ AR Not Available';
+                        arButton.style.background = 'linear-gradient(45deg, #ff6b6b, #ee5a52)';
+                        arButton.disabled = true;
+                    }
+                });
+                
+                // Check if WebXR is supported
+                if ('xr' in navigator) {
+                    navigator.xr.isSessionSupported('immersive-ar').then(function(supported) {
+                        if (!supported) {
+                            console.log('WebXR AR not supported');
+                        }
+                    });
+                } else {
+                    console.log('WebXR not supported');
+                }
+            }
+            
+            checkARSupport();
+        });
+    </script>
 </body>
 </html>
