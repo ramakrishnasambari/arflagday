@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gandhi AR Experience</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mahatma Gandhi AR Experience</h1>
+            <p>Experience the legacy of peace and non-violence in augmented reality</p>
+        </header>
+
+        <div class="model-container">
+            <model-viewer
+                src="gandhi.glb"
+                alt="Mahatma Gandhi 3D Model"
+                ar
+                ar-modes="webxr scene-viewer quick-look"
+                camera-controls
+                shadow-intensity="1"
+                auto-rotate
+                camera-orbit="0deg 75deg 75%"
+                min-camera-orbit="auto auto 50%"
+                max-camera-orbit="auto auto 150%"
+                interaction-prompt="auto"
+                loading="eager"
+                reveal="auto"
+                ar-scale="auto"
+                ar-placement="floor"
+                ar-button>
+                <button slot="ar-button" class="ar-button">
+                    👁️ View in AR
+                </button>
+            </model-viewer>
+        </div>
+
+        <div class="info-panel">
+            <h2>About Mahatma Gandhi</h2>
+            <p>Mohandas Karamchand Gandhi (1869-1948) was an Indian lawyer, anti-colonial nationalist, and political ethicist who employed nonviolent resistance to lead the successful campaign for India's independence from British rule.</p>
+            
+            <div class="controls-info">
+                <h3>How to Use:</h3>
+                <ul>
+                    <li>🖱️ <strong>Mouse/Touch:</strong> Rotate and zoom the model</li>
+                    <li>👁️ <strong>AR Button:</strong> View in your space</li>
+                    <li>📱 <strong>Mobile:</strong> Best experience on AR-capable devices</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>Experience the power of peaceful resistance through AR technology</p>
+        </footer>
+    </div>
+</body>
+</html>
