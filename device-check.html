@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Device Compatibility Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .check-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .success { background: rgba(76, 175, 80, 0.3); }
+        .warning { background: rgba(255, 193, 7, 0.3); }
+        .error { background: rgba(244, 67, 54, 0.3); }
+        .info { background: rgba(33, 150, 243, 0.3); }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover { background: #45a049; }
+        .device-info {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 AR Device Compatibility Checker</h1>
+    
+    <div class="check-card">
+        <h2>📱 Device Information</h2>
+        <div class="device-info" id="deviceInfo">
+            Checking device information...
+        </div>
+    </div>
+
+    <div class="check-card">
+        <h2>🌐 Browser Support</h2>
+        <div id="browserSupport">
+            Checking browser support...
+        </div>
+    </div>
+
+    <div class="check-card">
+        <h2>📡 WebXR Support</h2>
+        <div id="webxrSupport">
+            Checking WebXR support...
+        </div>
+    </div>
+
+    <div class="check-card">
+        <h2>📋 AR Requirements Check</h2>
+        <div id="arRequirements">
+            Checking AR requirements...
+        </div>
+    </div>
+
+    <div class="check-card">
+        <h2>💡 Solutions</h2>
+        <div id="solutions">
+            <div class="status info">
+                <h3>If AR is not working:</h3>
+                <ul>
+                    <li><strong>Try a different device:</strong> Use a newer Android phone or iPhone</li>
+                    <li><strong>Check ARCore compatibility:</strong> Visit <a href="https://developers.google.com/ar/discover/supported-devices" target="_blank" style="color: #fff;">Google's ARCore device list</a></li>
+                    <li><strong>Update your browser:</strong> Use Chrome, Safari, or Firefox latest version</li>
+                    <li><strong>Check permissions:</strong> Allow camera access when prompted</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="runFullCheck()">🔄 Run Full Check</button>
+    <button onclick="window.location.href='index.html'">🏠 Back to AR Experience</button>
+
+    <script>
+        function getDeviceInfo() {
+            const userAgent = navigator.userAgent;
+            const platform = navigator.platform;
+            const language = navigator.language;
+            const cookieEnabled = navigator.cookieEnabled;
+            const onLine = navigator.onLine;
+            
+            return {
+                userAgent: userAgent,
+                platform: platform,
+                language: language,
+                cookieEnabled: cookieEnabled,
+                onLine: onLine,
+                screenWidth: screen.width,
+                screenHeight: screen.height,
+                colorDepth: screen.colorDepth,
+                pixelDepth: screen.pixelDepth
+            };
+        }
+
+        function checkBrowserSupport() {
+            const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+            const isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
+            const isFirefox = /Firefox/.test(navigator.userAgent);
+            const isEdge = /Edg/.test(navigator.userAgent);
+            
+            let status = '';
+            if (isChrome) {
+                status = '<div class="status success">✅ Chrome detected - Good for AR</div>';
+            } else if (isSafari) {
+                status = '<div class="status success">✅ Safari detected - Good for AR on iOS</div>';
+            } else if (isFirefox) {
+                status = '<div class="status warning">⚠️ Firefox detected - Limited AR support</div>';
+            } else if (isEdge) {
+                status = '<div class="status warning">⚠️ Edge detected - Limited AR support</div>';
+            } else {
+                status = '<div class="status error">❌ Unknown browser - May not support AR</div>';
+            }
+            
+            return status;
+        }
+
+        function checkWebXRSupport() {
+            let status = '';
+            
+            if ('xr' in navigator) {
+                status += '<div class="status success">✅ WebXR API available</div>';
+                
+                // Check for AR session support
+                if (navigator.xr.isSessionSupported) {
+                    navigator.xr.isSessionSupported('immersive-ar').then(function(supported) {
+                        if (supported) {
+                            document.getElementById('webxrSupport').innerHTML += '<div class="status success">✅ AR sessions supported</div>';
+                        } else {
+                            document.getElementById('webxrSupport').innerHTML += '<div class="status error">❌ AR sessions not supported</div>';
+                        }
+                    }).catch(function(error) {
+                        document.getElementById('webxrSupport').innerHTML += '<div class="status error">❌ Error checking AR support: ' + error.message + '</div>';
+                    });
+                } else {
+                    status += '<div class="status error">❌ isSessionSupported not available</div>';
+                }
+            } else {
+                status = '<div class="status error">❌ WebXR not supported</div>';
+            }
+            
+            return status;
+        }
+
+        function checkARRequirements() {
+            const deviceInfo = getDeviceInfo();
+            let status = '';
+            
+            // Check if it's a mobile device
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                status += '<div class="status success">✅ Mobile device detected</div>';
+                
+                // Check for Android
+                if (/Android/.test(navigator.userAgent)) {
+                    status += '<div class="status info">📱 Android device detected</div>';
+                    status += '<div class="status warning">⚠️ Requires ARCore supported device</div>';
+                    status += '<div class="status warning">⚠️ Requires Google Play Services for AR</div>';
+                }
+                
+                // Check for iOS
+                if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                    status += '<div class="status info">🍎 iOS device detected</div>';
+                    status += '<div class="status success">✅ iOS 12+ supports AR</div>';
+                }
+            } else {
+                status += '<div class="status warning">⚠️ Desktop device - AR limited to WebXR</div>';
+            }
+            
+            return status;
+        }
+
+        function runFullCheck() {
+            // Device Info
+            const deviceInfo = getDeviceInfo();
+            document.getElementById('deviceInfo').innerHTML = `
+                <strong>User Agent:</strong> ${deviceInfo.userAgent}<br>
+                <strong>Platform:</strong> ${deviceInfo.platform}<br>
+                <strong>Language:</strong> ${deviceInfo.language}<br>
+                <strong>Screen:</strong> ${deviceInfo.screenWidth}x${deviceInfo.screenHeight}<br>
+                <strong>Online:</strong> ${deviceInfo.onLine ? 'Yes' : 'No'}<br>
+                <strong>Cookies:</strong> ${deviceInfo.cookieEnabled ? 'Enabled' : 'Disabled'}
+            `;
+            
+            // Browser Support
+            document.getElementById('browserSupport').innerHTML = checkBrowserSupport();
+            
+            // WebXR Support
+            document.getElementById('webxrSupport').innerHTML = checkWebXRSupport();
+            
+            // AR Requirements
+            document.getElementById('arRequirements').innerHTML = checkARRequirements();
+        }
+
+        // Run check on page load
+        window.onload = runFullCheck;
+    </script>
+</body>
+</html>

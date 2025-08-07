@@ -162,6 +162,26 @@ model-viewer {
     color: #856404;
 }
 
+.check-button {
+    display: inline-block;
+    background: linear-gradient(45deg, #2196F3, #1976D2);
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.check-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+    background: linear-gradient(45deg, #1976D2, #2196F3);
+    color: white;
+    text-decoration: none;
+}
+
 .ar-status {
     text-align: center;
     padding: 20px;
