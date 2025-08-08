@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T-Rex AR Experience</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🦕 T-Rex AR Experience</h1>
+            <p>Experience the animated T-Rex in augmented reality</p>
+        </header>
+
+        <div class="model-container">
+            <h2 class="model-title">Animated T-Rex Dinosaur</h2>
+            <model-viewer
+                src="trex.glb"
+                alt="Animated T-Rex Dinosaur 3D Model"
+                ar
+                ar-modes="webxr scene-viewer quick-look"
+                camera-controls
+                shadow-intensity="1"
+                camera-orbit="0deg 75deg 75%"
+                min-camera-orbit="auto auto 50%"
+                max-camera-orbit="auto auto 150%"
+                interaction-prompt="auto"
+                loading="eager"
+                reveal="auto"
+                ar-scale="auto"
+                ar-placement="floor"
+                ar-button
+                ar-status="not-presenting"
+                disable-zoom="false"
+                auto-play
+                loop
+                animation-crossfade-duration="0.5"
+                environment-image="neutral"
+                exposure="1"
+                tone-mapping="neutral">
+                <button slot="ar-button" class="ar-button" id="arButton">
+                    🦕 View T-Rex in AR
+                </button>
+                <div slot="ar-status" class="ar-status">
+                    <p>AR not available on this device</p>
+                    <p>Try viewing on a mobile device with AR support</p>
+                </div>
+            </model-viewer>
+        </div>
+
+        <div class="info-panel">
+            <div class="controls-info">
+                <h3>How to Use:</h3>
+                <ul>
+                    <li>🖱️ <strong>Mouse/Touch:</strong> Rotate and zoom the T-Rex</li>
+                    <li>🦕 <strong>AR Button:</strong> View T-Rex in your space (mobile only)</li>
+                    <li>📱 <strong>Mobile:</strong> Best experience on AR-capable devices</li>
+                </ul>
+            </div>
+
+            <div class="ar-requirements">
+                <h3>AR Requirements:</h3>
+                <ul>
+                    <li>📱 <strong>Android:</strong> ARCore supported device + Google Play Services for AR</li>
+                    <li>🍎 <strong>iOS:</strong> iPhone 6s+ or iPad 5th gen+ with iOS 12+</li>
+                    <li>🌐 <strong>Browser:</strong> Chrome, Safari, or Firefox with WebXR support</li>
+                </ul>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="device-check.html" class="check-button">🔍 Check Device Compatibility</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Experience the power of prehistoric creatures through AR technology</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modelViewer = document.querySelector('model-viewer');
+            const arButton = document.getElementById('arButton');
+            
+            modelViewer.addEventListener('load', function() {
+                console.log('T-Rex model loaded successfully');
+                
+                if (modelViewer.availableAnimations && modelViewer.availableAnimations.length > 0) {
+                    console.log('T-Rex has', modelViewer.availableAnimations.length, 'animations:', modelViewer.availableAnimations);
+                    if (modelViewer.availableAnimations.length > 0) {
+                        modelViewer.play({animationName: modelViewer.availableAnimations[0]});
+                        console.log('Playing animation:', modelViewer.availableAnimations[0]);
+                    }
+                } else {
+                    console.log('T-Rex has no animations available');
+                }
+                
+                if (modelViewer.model) {
+                    console.log('T-Rex model materials:', modelViewer.model.materials);
+                    console.log('T-Rex model textures:', modelViewer.model.textures);
+                }
+            });
+            
+            modelViewer.addEventListener('error', function(event) {
+                console.error('T-Rex loading error:', event.detail);
+            });
+            
+            modelViewer.addEventListener('ar-status', function(event) {
+                const status = event.detail.status;
+                console.log('AR Status for T-Rex:', status);
+                
+                if (status === 'not-presenting') {
+                    arButton.style.display = 'block';
+                } else if (status === 'failed') {
+                    arButton.textContent = '❌ AR Not Available';
+                    arButton.style.background = 'linear-gradient(45deg, #ff6b6b, #ee5a52)';
+                    arButton.disabled = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
