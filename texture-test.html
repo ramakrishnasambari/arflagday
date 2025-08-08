@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T-Rex Texture Test</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        body { margin: 20px; font-family: Arial, sans-serif; }
+        model-viewer { width: 100%; height: 500px; border: 2px solid #ccc; }
+        .debug { background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>T-Rex Texture Debug Test</h1>
+    
+    <div class="debug">
+        <h3>Debug Information:</h3>
+        <div id="debug-info">Loading...</div>
+    </div>
+
+    <model-viewer
+        src="trex.glb"
+        alt="T-Rex Test"
+        camera-controls
+        auto-play
+        loop
+        environment-image="neutral"
+        exposure="1"
+        tone-mapping="neutral"
+        shadow-intensity="1">
+    </model-viewer>
+
+    <script>
+        const modelViewer = document.querySelector('model-viewer');
+        const debugInfo = document.getElementById('debug-info');
+
+        modelViewer.addEventListener('load', function() {
+            console.log('Model loaded successfully');
+            
+            let debugText = '<strong>Model loaded successfully!</strong><br><br>';
+            
+            // Check animations
+            if (modelViewer.availableAnimations && modelViewer.availableAnimations.length > 0) {
+                debugText += `<strong>Animations (${modelViewer.availableAnimations.length}):</strong><br>`;
+                modelViewer.availableAnimations.forEach((anim, index) => {
+                    debugText += `- ${anim}<br>`;
+                });
+                debugText += '<br>';
+            } else {
+                debugText += '<strong>No animations found</strong><br><br>';
+            }
+
+            // Check model structure
+            if (modelViewer.model) {
+                debugText += `<strong>Model Info:</strong><br>`;
+                debugText += `- Materials: ${modelViewer.model.materials ? modelViewer.model.materials.length : 'Unknown'}<br>`;
+                debugText += `- Textures: ${modelViewer.model.textures ? modelViewer.model.textures.length : 'Unknown'}<br>`;
+                debugText += `- Meshes: ${modelViewer.model.meshes ? modelViewer.model.meshes.length : 'Unknown'}<br>`;
+                
+                // Log detailed info to console
+                console.log('Model materials:', modelViewer.model.materials);
+                console.log('Model textures:', modelViewer.model.textures);
+                console.log('Model meshes:', modelViewer.model.meshes);
+            }
+
+            debugInfo.innerHTML = debugText;
+        });
+
+        modelViewer.addEventListener('error', function(event) {
+            console.error('Model loading error:', event.detail);
+            debugInfo.innerHTML = `<strong>Error loading model:</strong><br>${event.detail}`;
+        });
+    </script>
+</body>
+</html>
