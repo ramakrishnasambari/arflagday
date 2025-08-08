@@ -11,15 +11,15 @@
 <body>
     <div class="container">
         <header>
-            <h1>Mahatma Gandhi AR Experience</h1>
+            <h1>Eshika Training & Placements</h1>
             <p>Experience the legacy of peace and non-violence in augmented reality</p>
         </header>
 
         <div class="model-container">
-            <h2 class="model-title">Mahatma Gandhi Portrait</h2>
+            <h2 class="model-title">Mahatma Gandhi Statue</h2>
             <model-viewer
-                src="gandhi.glb"
-                alt="Mahatma Gandhi 3D Model"
+                src="mahatma_gandhi_statue.glb"
+                alt="Mahatma Gandhi Statue 3D Model"
                 ar
                 ar-modes="webxr scene-viewer quick-look"
                 camera-controls
@@ -48,10 +48,10 @@
         </div>
 
         <div class="model-container">
-            <h2 class="model-title">Mahatma Gandhi Statue</h2>
+            <h2 class="model-title">Dinosaur with Movement</h2>
             <model-viewer
-                src="mahatma_gandhi_statue.glb"
-                alt="Mahatma Gandhi Statue 3D Model"
+                src="dinosar_movement.glb"
+                alt="Dinosaur with Movement 3D Model"
                 ar
                 ar-modes="webxr scene-viewer quick-look"
                 camera-controls
@@ -124,7 +124,8 @@
                     // Listen for AR status changes
                     modelViewer.addEventListener('ar-status', function(event) {
                         const status = event.detail.status;
-                        console.log('AR Status for model', index + 1, ':', status);
+                        const modelName = index === 0 ? 'Gandhi Statue' : 'Dinosaur';
+                        console.log('AR Status for', modelName, ':', status);
                         
                         if (status === 'not-presenting') {
                             // AR is available but not active
