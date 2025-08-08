@@ -16,6 +16,7 @@
         </header>
 
         <div class="model-container">
+            <h2 class="model-title">Mahatma Gandhi Portrait</h2>
             <model-viewer
                 src="gandhi.glb"
                 alt="Mahatma Gandhi 3D Model"
@@ -36,7 +37,39 @@
                 disable-zoom="false"
                 animation-name=""
                 animation-crossfade-duration="0">
-                <button slot="ar-button" class="ar-button" id="arButton">
+                <button slot="ar-button" class="ar-button" id="arButton1">
+                    👁️ View in AR
+                </button>
+                <div slot="ar-status" class="ar-status">
+                    <p>AR not available on this device</p>
+                    <p>Try viewing on a mobile device with AR support</p>
+                </div>
+            </model-viewer>
+        </div>
+
+        <div class="model-container">
+            <h2 class="model-title">Mahatma Gandhi Statue</h2>
+            <model-viewer
+                src="mahatma_gandhi_statue.glb"
+                alt="Mahatma Gandhi Statue 3D Model"
+                ar
+                ar-modes="webxr scene-viewer quick-look"
+                camera-controls
+                shadow-intensity="1"
+                camera-orbit="0deg 75deg 75%"
+                min-camera-orbit="auto auto 50%"
+                max-camera-orbit="auto auto 150%"
+                interaction-prompt="auto"
+                loading="eager"
+                reveal="auto"
+                ar-scale="auto"
+                ar-placement="floor"
+                ar-button
+                ar-status="not-presenting"
+                disable-zoom="false"
+                animation-name=""
+                animation-crossfade-duration="0">
+                <button slot="ar-button" class="ar-button" id="arButton2">
                     👁️ View in AR
                 </button>
                 <div slot="ar-status" class="ar-status">
@@ -77,27 +110,32 @@
     <script>
         // AR device detection and status handling
         document.addEventListener('DOMContentLoaded', function() {
-            const modelViewer = document.querySelector('model-viewer');
-            const arButton = document.getElementById('arButton');
+            const modelViewers = document.querySelectorAll('model-viewer');
+            const arButton1 = document.getElementById('arButton1');
+            const arButton2 = document.getElementById('arButton2');
             
             // Check if AR is supported
             function checkARSupport() {
-                if (!modelViewer) return;
-                
-                // Listen for AR status changes
-                modelViewer.addEventListener('ar-status', function(event) {
-                    const status = event.detail.status;
-                    console.log('AR Status:', status);
+                modelViewers.forEach((modelViewer, index) => {
+                    if (!modelViewer) return;
                     
-                    if (status === 'not-presenting') {
-                        // AR is available but not active
-                        arButton.style.display = 'block';
-                    } else if (status === 'failed') {
-                        // AR failed to start
-                        arButton.textContent = '❌ AR Not Available';
-                        arButton.style.background = 'linear-gradient(45deg, #ff6b6b, #ee5a52)';
-                        arButton.disabled = true;
-                    }
+                    const arButton = index === 0 ? arButton1 : arButton2;
+                    
+                    // Listen for AR status changes
+                    modelViewer.addEventListener('ar-status', function(event) {
+                        const status = event.detail.status;
+                        console.log('AR Status for model', index + 1, ':', status);
+                        
+                        if (status === 'not-presenting') {
+                            // AR is available but not active
+                            arButton.style.display = 'block';
+                        } else if (status === 'failed') {
+                            // AR failed to start
+                            arButton.textContent = '❌ AR Not Available';
+                            arButton.style.background = 'linear-gradient(45deg, #ff6b6b, #ee5a52)';
+                            arButton.disabled = true;
+                        }
+                    });
                 });
                 
                 // Check if WebXR is supported
