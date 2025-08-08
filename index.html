@@ -50,7 +50,7 @@
         <div class="model-container">
             <h2 class="model-title">Animated T-Rex Dinosaur</h2>
             <model-viewer
-                src="moving_dinosar/source/Rampaging T-Rex.glb"
+                src="trex.glb"
                 alt="Animated T-Rex Dinosaur 3D Model"
                 ar
                 ar-modes="webxr scene-viewer quick-look"
@@ -121,11 +121,34 @@
                     if (!modelViewer) return;
                     
                     const arButton = index === 0 ? arButton1 : arButton2;
+                    const modelName = index === 0 ? 'Gandhi Statue' : 'Animated T-Rex';
+                    
+                    // Debug model loading
+                    modelViewer.addEventListener('load', function() {
+                        console.log(modelName, 'model loaded successfully');
+                        
+                        // Check for animations
+                        if (modelViewer.availableAnimations && modelViewer.availableAnimations.length > 0) {
+                            console.log(modelName, 'has', modelViewer.availableAnimations.length, 'animations:', modelViewer.availableAnimations);
+                            
+                            // Try to play the first animation
+                            if (modelViewer.availableAnimations.length > 0) {
+                                modelViewer.play({animationName: modelViewer.availableAnimations[0]});
+                                console.log('Playing animation:', modelViewer.availableAnimations[0]);
+                            }
+                        } else {
+                            console.log(modelName, 'has no animations available');
+                        }
+                    });
+                    
+                    // Listen for loading errors
+                    modelViewer.addEventListener('error', function(event) {
+                        console.error(modelName, 'loading error:', event.detail);
+                    });
                     
                     // Listen for AR status changes
                     modelViewer.addEventListener('ar-status', function(event) {
                         const status = event.detail.status;
-                        const modelName = index === 0 ? 'Gandhi Statue' : 'Animated T-Rex';
                         console.log('AR Status for', modelName, ':', status);
                         
                         if (status === 'not-presenting') {
