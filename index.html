@@ -23,7 +23,6 @@
                 ar-modes="webxr scene-viewer quick-look"
                 camera-controls
                 shadow-intensity="1"
-                auto-rotate
                 camera-orbit="0deg 75deg 75%"
                 min-camera-orbit="auto auto 50%"
                 max-camera-orbit="auto auto 150%"
@@ -33,7 +32,10 @@
                 ar-scale="auto"
                 ar-placement="floor"
                 ar-button
-                ar-status="not-presenting">
+                ar-status="not-presenting"
+                disable-zoom="false"
+                animation-name=""
+                animation-crossfade-duration="0">
                 <button slot="ar-button" class="ar-button" id="arButton">
                     👁️ View in AR
                 </button>
