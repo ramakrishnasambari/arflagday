@@ -48,10 +48,10 @@
         </div>
 
         <div class="model-container">
-            <h2 class="model-title">Dinosaur with Movement</h2>
+            <h2 class="model-title">Rampaging T-Rex</h2>
             <model-viewer
-                src="dinosar_movement2.glb"
-                alt="Dinosaur with Movement 3D Model"
+                src="moving_dinosar/source/Rampaging T-Rex.glb"
+                alt="Rampaging T-Rex 3D Model"
                 ar
                 ar-modes="webxr scene-viewer quick-look"
                 camera-controls
@@ -124,7 +124,7 @@
                     // Listen for AR status changes
                     modelViewer.addEventListener('ar-status', function(event) {
                         const status = event.detail.status;
-                        const modelName = index === 0 ? 'Gandhi Statue' : 'Dinosaur';
+                        const modelName = index === 0 ? 'Gandhi Statue' : 'Rampaging T-Rex';
                         console.log('AR Status for', modelName, ':', status);
                         
                         if (status === 'not-presenting') {
