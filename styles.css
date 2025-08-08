@@ -261,6 +261,43 @@ model-viewer::before {
     z-index: 1;
 }
 
+/* Sketchfab Embed Styling */
+.sketchfab-embed-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    background: #fff;
+}
+
+.sketchfab-embed-wrapper iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+    display: block;
+}
+
+.sketchfab-embed-wrapper p {
+    padding: 15px 20px;
+    margin: 0;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    font-size: 13px;
+    color: #4A4A4A;
+}
+
+.sketchfab-embed-wrapper a {
+    font-weight: bold;
+    color: #1CAAD9;
+    text-decoration: none;
+}
+
+.sketchfab-embed-wrapper a:hover {
+    text-decoration: underline;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
